@@ -6,26 +6,15 @@ import 'package:your_waste/app.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:parse_server_sdk_flutter/generated/i18n.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:your_waste/src/data/data.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  const keyApplicationId = '7u7vXFoC5ISliuVLLGfnsmOOEevigX9ZV7HF5gqM';
-  const keyClientKey = 'UXbVMRwMOwapnmUT1BvTzZ7oU4skGtbQervAf8Ld';
-  const keyParseServerUrl = 'https://parseapi.back4app.com';
-
   // use for internationalization checkout: https://pub.dev/packages/easy_localization
   await EasyLocalization.ensureInitialized();
 
-  await Parse().initialize(
-    keyApplicationId,
-    keyParseServerUrl,
-    clientKey: keyClientKey,
-    debug: true, // When enabled, prints logs to console
-    // liveQueryUrl: keyLiveQueryUrl, // Required if using LiveQuery
-    autoSendSessionId: true, // Required for authentication and ACL
-    // securityContext: securityContext, // Again, required for some setups
-  );
+  await registerParseServer();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   final storage = await HydratedStorage.build(
@@ -44,4 +33,30 @@ void main() async {
     )),
     storage: storage,
   );
+}
+
+registerParseServer() async {
+  const keyApplicationId = '7u7vXFoC5ISliuVLLGfnsmOOEevigX9ZV7HF5gqM';
+  const keyClientKey = 'UXbVMRwMOwapnmUT1BvTzZ7oU4skGtbQervAf8Ld';
+  const keyParseServerUrl = 'https://parseapi.back4app.com';
+
+  await Parse().initialize(
+    keyApplicationId,
+    keyParseServerUrl,
+    clientKey: keyClientKey,
+    debug: true, // When enabled, prints logs to console
+    // liveQueryUrl: keyLiveQueryUrl, // Required if using LiveQuery
+    autoSendSessionId: true, // Required for authentication and ACL
+    // securityContext: securityContext, // Again, required for some setups
+  );
+
+  ParseCoreData().registerUserSubClass(
+    (username, password, emailAddress, {client, debug, sessionToken}) => User(
+      username: username,
+      password: password,
+      email: emailAddress,
+    ),
+  );
+
+  ParseCoreData().registerSubClass(Article.keyTableName, () => Article());
 }

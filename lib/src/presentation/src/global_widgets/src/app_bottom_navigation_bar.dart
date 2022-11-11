@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+import 'package:your_waste/src/presentation/src/pages/src/profile/views/profile_page.dart';
 import 'package:your_waste/your_waste.dart';
 
 class AppBottomNavigationBar extends StatelessWidget {
@@ -48,25 +49,25 @@ class AppBottomNavigationBar extends StatelessWidget {
                     },
                   ),
                   _bottomNavItem(
-                    active: state.activePage is LoginPage,
-                    icon: Icons.bookmark,
-                    text: "BookMarks",
+                    active: state.activePage is ArticlesPage,
+                    icon: Icons.book,
+                    text: "Education",
                     onTap: () {
                       context.read<AppBottomNavigationBarBloc>().add(
                             AppBottomNavigationBarChanged(
-                              activePage: const HomePage(),
+                              activePage: const ArticlesPage(),
                             ),
                           );
                     },
                   ),
                   _bottomNavItem(
-                    active: state.activePage is LoginPage,
+                    active: state.activePage is ProfilePage,
                     icon: Icons.person,
                     text: "Profile",
                     onTap: () {
                       context.read<AppBottomNavigationBarBloc>().add(
                             AppBottomNavigationBarChanged(
-                              activePage: const HomePage(),
+                              activePage: const ProfilePage(),
                             ),
                           );
                     },
@@ -123,9 +124,9 @@ BottomNavigationBarItem _bottomNavItem({
         padding: EdgeInsets.all(
             SizerUtil.deviceType == DeviceType.mobile ? 5.sp : 9.sp),
         decoration: BoxDecoration(
-          color: active ? Color(0XFFEEECED) : Colors.white,
+          // color: active ? Color(0XFFEEECED) : Colors.white,
           borderRadius: BorderRadius.circular(10),
-          border: active ? Border.all(color: secondaryColor) : null,
+          // border: active ? Border.all(color: secondaryColor) : null,
         ),
         child: Column(
           children: [
@@ -135,7 +136,10 @@ BottomNavigationBarItem _bottomNavItem({
               size: SizerUtil.deviceType == DeviceType.mobile ? 18.sp : 9.sp,
             ),
             active
-                ? const SizedBox.shrink()
+                ? CustomCircle(
+                    color: primaryColor,
+                    radius: 3.sp,
+                  )
                 : Text(
                     text,
                     style: TextStyle(

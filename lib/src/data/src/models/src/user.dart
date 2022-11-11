@@ -1,50 +1,78 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:equatable/equatable.dart';
 
-class User {
-  final int? id;
-  final String? first_name;
-  final String? last_name;
-  final String? email;
-  final String? phone;
-  final String? photo;
-  final String? name;
+class User extends ParseUser with EquatableMixin implements ParseCloneable {
   User({
-    this.id,
-    this.first_name,
-    this.last_name,
-    this.email,
-    this.phone,
-    this.photo,
-    this.name,
-  });
+    String? username,
+    String? password,
+    String? email,
+  }) : super(username, password, email);
+
+  User.clone() : this();
+
+  @override
+  User clone(Map<String, dynamic> map) => User.clone()..fromJson(map);
+
+  String? get firstname => get<String?>('firstname');
+  set firstname(String? value) => set<String?>('firstname', value);
+
+  String? get lastname => get<String?>('lastname');
+  set lastname(String? value) => set<String?>('lastname', value);
+
+  String? get email => get<String?>('email');
+  set email(String? value) => set<String?>('email', value);
+
+  String? get phone => get<String?>('phone');
+  set phone(String? value) => set<String?>('phone', value);
+
+  String? get gender => get<String?>('gender');
+  set gender(String? value) => set<String?>('gender', value);
+
+  String? get profileImage => get<String?>('profileImage');
+  set profileImage(String? value) => set<String?>('profileImage', value);
+
+  @override
+  List<Object?> get props => [
+        firstname,
+        lastname,
+        email,
+        phone,
+        gender,
+        profileImage,
+      ];
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
-      'first_name': first_name,
-      'last_name': last_name,
+      'objectId': objectId,
+      'firstname': firstname,
+      'lastname': lastname,
       'email': email,
       'phone': phone,
-      'photo': photo,
-      'name': name,
+      'gender': gender,
+      'profileImage': profileImage,
+      'sessionToken': sessionToken,
     };
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
-    return User(
-      id: map['id'] != null ? map['id'] as int : null,
-      first_name:
-          map['first_name'] != null ? map['first_name'] as String : null,
-      last_name: map['last_name'] != null ? map['last_name'] as String : null,
-      email: map['email'] != null ? map['email'] as String : null,
-      phone: map['phone'] != null ? map['phone'] as String : null,
-      photo: map['photo'] != null ? map['photo'] as String : null,
-      name: map['name'] != null ? map['name'] as String : null,
-    );
+    User user = User()
+      ..objectId = map['objectId']
+      ..firstname = map['firstname'] != null ? map['firstname'] as String : null
+      ..lastname = map['lastname'] != null ? map['lastname'] as String : null
+      ..email = map['email'] != null ? map['email'] as String : null
+      ..phone = map['phone'] != null ? map['phone'] as String : null
+      ..gender = map['gender'] != null ? map['gender'] as String : null
+      ..profileImage =
+          map['profileImage'] != null ? map['profileImage'] as String : null
+      ..sessionToken =
+          map['sessionToken'] != null ? map['sessionToken'] as String : null;
+
+    return user;
   }
 
-  String toJson() => json.encode(toMap());
+  String to_json() => json.encode(toMap());
 
   factory User.fromJson(String source) =>
       User.fromMap(json.decode(source) as Map<String, dynamic>);

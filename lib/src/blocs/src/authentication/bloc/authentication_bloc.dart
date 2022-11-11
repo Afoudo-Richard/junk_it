@@ -3,6 +3,7 @@ import 'dart:convert';
 // import 'package:authentication_repository/authentication_repository.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:your_waste/src/data/data.dart';
 
 part 'authentication_event.dart';
@@ -12,6 +13,7 @@ class AuthenticationBloc
     extends HydratedBloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc() : super(const AuthenticationState()) {
     on<AuthenticationChanged>(_onAuthenticationChanged);
+    on<AuthenticationUserChanged>(_onAuthenticationUserChanged);
     on<AuthenticationLogoutRequested>(_onAuthenticationLogoutRequested);
     on<AuthenticationChecker>(_onAuthenticationChecker);
     on<AuthenticationHasWalkedThroughChanged>(
@@ -37,11 +39,6 @@ class AuthenticationBloc
     return emit(
       state.copyWith(
         isSignedInAnonymous: true,
-        user: User(
-            id: -1,
-            first_name: "Anonymous",
-            last_name: "Anonymous",
-            name: "Anonymous"),
       ),
     );
   }
@@ -50,31 +47,32 @@ class AuthenticationBloc
     AuthenticationChanged event,
     Emitter<AuthenticationState> emit,
   ) async {
-    return event.authenticated
-        ? emit(
-            state.copyWith(
-              authenticated: event.authenticated,
-              user: event.user,
-              token: event.token,
-            ),
-          )
-        : emit(
-            state.copyWith(
-              authenticated: event.authenticated,
-              user: null,
-              token: '',
-            ),
-          );
+    return emit(
+      state.copyWith(
+        authenticated: event.authenticated,
+        user: event.user,
+      ),
+    );
+  }
+
+  void _onAuthenticationUserChanged(
+    AuthenticationUserChanged event,
+    Emitter<AuthenticationState> emit,
+  ) async {
+    return emit(
+      state.copyWith(
+        user: event.user,
+        checker: !state.checker,
+      ),
+    );
   }
 
   void _onAuthenticationLogoutRequested(
     AuthenticationLogoutRequested event,
     Emitter<AuthenticationState> emit,
-  ) {
+  ) async {
     emit(state.copyWith(
       authenticated: false,
-      user: null,
-      token: null,
       isSignedInAnonymous: false,
     ));
   }

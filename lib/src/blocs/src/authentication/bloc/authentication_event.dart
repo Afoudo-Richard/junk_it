@@ -4,8 +4,8 @@ part of 'authentication_bloc.dart';
 abstract class AuthenticationEvent extends Equatable {
   const AuthenticationEvent();
 
-  @override
-  List<Object> get props => [];
+  // @override
+  // List<Object> get props => [];
 }
 
 // class AuthenticationStatusChanged extends AuthenticationEvent {
@@ -17,18 +17,31 @@ abstract class AuthenticationEvent extends Equatable {
 //   List<Object> get props => [status];
 // }
 
-class AuthenticationLogoutRequested extends AuthenticationEvent {}
+class AuthenticationLogoutRequested extends AuthenticationEvent {
+  @override
+  List<Object> get props => [];
+}
 
 class AuthenticationChanged extends AuthenticationEvent {
-  const AuthenticationChanged(
-      {required this.authenticated, required this.token, this.user});
-
-  final String token;
+  const AuthenticationChanged({
+    required this.authenticated,
+    required this.user,
+  });
   final bool authenticated;
   final User? user;
 
   @override
-  List<Object> get props => [authenticated, token];
+  List<Object?> get props => [authenticated, user];
+}
+
+class AuthenticationUserChanged extends AuthenticationEvent {
+  const AuthenticationUserChanged({
+    required this.user,
+  });
+  final User? user;
+
+  @override
+  List<Object?> get props => [user];
 }
 
 class AuthenticationHasWalkedThroughChanged extends AuthenticationEvent {
@@ -41,7 +54,10 @@ class AuthenticationHasWalkedThroughChanged extends AuthenticationEvent {
   List<Object> get props => [hasWalkedThrough];
 }
 
-class AuthenticationSignInAnonymous extends AuthenticationEvent {}
+class AuthenticationSignInAnonymous extends AuthenticationEvent {
+  @override
+  List<Object> get props => [];
+}
 
 class AuthenticationChecker extends AuthenticationEvent {
   final bool check;

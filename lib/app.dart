@@ -10,11 +10,18 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider(
-      create: (context) => YourWasteApi(),
+      create: (context) => JunkItApi(),
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => AuthenticationBloc()),
           BlocProvider(create: (context) => AppBottomNavigationBarBloc()),
+          BlocProvider(
+            create: (context) => UserImageBloc(
+              authenticationBloc: BlocProvider.of<AuthenticationBloc>(context),
+            ),
+          ),
+          BlocProvider(
+              create: (context) => ListArticleBloc()..add(ArticlesFetched())),
         ],
         child: const AppView(),
       ),

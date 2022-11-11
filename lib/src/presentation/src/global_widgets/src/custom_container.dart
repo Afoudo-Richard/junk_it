@@ -7,6 +7,7 @@ class CustomContainer extends StatelessWidget {
     this.borderRadius,
     this.child,
     this.padding,
+    this.margin,
     this.border,
     this.backgroundImage,
     this.width,
@@ -18,6 +19,7 @@ class CustomContainer extends StatelessWidget {
   final BorderRadius? borderRadius;
   final Widget? child;
   final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
   final BoxBorder? border;
   final DecorationImage? backgroundImage;
   final double? width;
@@ -30,6 +32,7 @@ class CustomContainer extends StatelessWidget {
       width: width,
       height: height,
       padding: padding ?? EdgeInsets.all(10),
+      margin: margin,
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         border: border,

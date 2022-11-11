@@ -4,23 +4,20 @@ class AuthenticationState extends Equatable {
   const AuthenticationState({
     this.authenticated = false,
     this.isSignedInAnonymous = false,
-    this.token = '',
-    this.user,
     this.checker = false,
     this.hasWalkedThrough = false,
+    this.user,
   });
 
   final bool authenticated;
   final bool isSignedInAnonymous;
-  final String token;
-  final User? user;
   final bool checker;
   final bool hasWalkedThrough;
+  final User? user;
 
   AuthenticationState copyWith({
     bool? authenticated,
     bool? isSignedInAnonymous,
-    String? token,
     User? user,
     bool? checker,
     bool? hasWalkedThrough,
@@ -28,22 +25,29 @@ class AuthenticationState extends Equatable {
     return AuthenticationState(
       authenticated: authenticated ?? this.authenticated,
       isSignedInAnonymous: isSignedInAnonymous ?? this.isSignedInAnonymous,
-      token: token ?? this.token,
-      user: user ?? this.user,
       checker: checker ?? this.checker,
       hasWalkedThrough: hasWalkedThrough ?? this.hasWalkedThrough,
+      user: user ?? this.user,
     );
   }
 
   @override
-  List<Object> get props =>
-      [authenticated, token, isSignedInAnonymous, checker, hasWalkedThrough];
+  List<Object?> get props => [
+        authenticated,
+        isSignedInAnonymous,
+        checker,
+        user,
+        hasWalkedThrough,
+      ];
+
+  Future<User?> getUser() async {
+    return await ParseUser.currentUser();
+  }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'authenticated': authenticated,
       'isSignedInAnonymous': isSignedInAnonymous,
-      'token': token,
       'user': user?.toMap(),
       'checker': checker,
       'hasWalkedThrough': hasWalkedThrough,
@@ -54,7 +58,6 @@ class AuthenticationState extends Equatable {
     return AuthenticationState(
       authenticated: map['authenticated'] as bool,
       isSignedInAnonymous: map['isSignedInAnonymous'] as bool,
-      token: map['token'] as String,
       user: map['user'] != null
           ? User.fromMap(map['user'] as Map<String, dynamic>)
           : null,

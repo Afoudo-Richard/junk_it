@@ -13,8 +13,8 @@ class SubItemTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
           title,
@@ -24,17 +24,7 @@ class SubItemTitle extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        trailing != null
-            ? Text(
-                "Overview",
-                style: TextStyle(
-                  color: primaryColor,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.bold,
-                ),
-              )
-            : const SizedBox.shrink(),
-        0.5.h.ph,
+        trailing ?? const SizedBox.shrink(),
       ],
     );
   }

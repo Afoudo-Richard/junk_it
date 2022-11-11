@@ -28,7 +28,8 @@ class WalkThroughPage extends StatelessWidget {
         width: 30.w,
       ),
       title: "Reduce",
-      description: "welcome_splash_message",
+      description:
+          "Let's reduce the amount of waste we emit to our environment",
     ),
     onbordingDateWrapper(
       image: SvgPicture.asset(
@@ -37,7 +38,7 @@ class WalkThroughPage extends StatelessWidget {
         width: 30.w,
       ),
       title: "Reuse",
-      description: "welcome_splash_message",
+      description: "Learn to reuse our waste and give use to it.",
     ),
     onbordingDateWrapper(
       image: SvgPicture.asset(
@@ -46,7 +47,8 @@ class WalkThroughPage extends StatelessWidget {
         width: 30.w,
       ),
       title: "Recycle",
-      description: "welcome_splash_message",
+      description:
+          "Don't reinvent the wheel. Recyle your waste and keep your enviroment clean.",
     ),
   ];
 
@@ -110,7 +112,7 @@ class WalkThroughPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "start_now",
+                "Start Now",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 14,

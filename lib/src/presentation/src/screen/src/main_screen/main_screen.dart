@@ -23,6 +23,20 @@ class MainScreen extends StatelessWidget {
       ),
 
       bottomNavigationBar: const AppBottomNavigationBar(),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(
+          Icons.phone,
+          color: secondaryColor,
+        ),
+        onPressed: () {
+          launchUrl(
+            Uri(
+              scheme: "tel",
+              path: "+237672367030",
+            ),
+          );
+        },
+      ),
     );
   }
 }
